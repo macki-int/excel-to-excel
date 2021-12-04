@@ -2,7 +2,7 @@ package pl.trollsysstems.exceltoexcel.model;
 
 import java.util.List;
 
-public class Inclinometer {
+public class InclinometerChain {
     private String inclinometerName;
     private List<Measure> measureList;
 
