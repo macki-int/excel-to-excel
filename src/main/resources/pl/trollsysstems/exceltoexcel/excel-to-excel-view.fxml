@@ -17,7 +17,7 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="1000.0">
                   <children>
-                     <TableView layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0">
+                     <TableView fx:id="TableViewConfig" layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0">
                        <columns>
                          <TableColumn prefWidth="89.0" text="Name" />
                          <TableColumn prefWidth="124.0" text="Ilość inklinometrów" />
