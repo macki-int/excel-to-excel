@@ -12,7 +12,7 @@ public class ExcelToExcel extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ExcelToExcel.class.getResource("excel-to-excel-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 640, 480);
-        stage.setTitle("Hello!");
+        stage.setTitle("ExcelToExcel");
         stage.setScene(scene);
         stage.show();
     }
