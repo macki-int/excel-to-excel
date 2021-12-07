@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_RIGHT" prefHeight="500.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.trollsysstems.exceltoexcel.ExcelToExcelController">
+<VBox alignment="TOP_RIGHT" prefHeight="500.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.trollsysstems.exceltoexcel.controller.ExcelToExcelController">
    <TabPane prefHeight="449.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
      <tabs>
        <Tab text="Import">
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="1000.0">
                   <children>
-                     <TableView layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0">
+                     <TableView fx:id="TableViewConfig" layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0">
                        <columns>
                          <TableColumn prefWidth="89.0" text="Name" />
                          <TableColumn prefWidth="124.0" text="Ilość inklinometrów" />

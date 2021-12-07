@@ -1,4 +1,4 @@
-package pl.trollsysstems.exceltoexcel;
+package pl.trollsysstems.exceltoexcel.controller;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

@@ -7,4 +7,6 @@ module pl.trollsysstems.exceltoexcel {
 
     opens pl.trollsysstems.exceltoexcel to javafx.fxml;
     exports pl.trollsysstems.exceltoexcel;
+    exports pl.trollsysstems.exceltoexcel.controller;
+    opens pl.trollsysstems.exceltoexcel.controller to javafx.fxml;
 }
