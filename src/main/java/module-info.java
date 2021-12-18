@@ -4,6 +4,7 @@ module pl.trollsysstems.exceltoexcel {
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
+    requires poi.ooxml;
 
     opens pl.trollsysstems.exceltoexcel to javafx.fxml;
     exports pl.trollsysstems.exceltoexcel;

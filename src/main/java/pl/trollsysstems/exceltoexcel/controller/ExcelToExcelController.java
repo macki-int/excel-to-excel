@@ -5,11 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ExcelToExcelController {
-//    @FXML
+    //    @FXML
 //    private Button buttonExit;
 //    @FXML
 //    private Button buttonOpenConfigDialog;
@@ -23,7 +27,7 @@ public class ExcelToExcelController {
     }
 
     @FXML
-    private void onButtonOpenConfigDialogClick() {
+    private void onButtonOpenConfigDialogClick() throws IOException {
         Stage stage = new Stage();
         FileChooser fileChooser = new FileChooser();
 
@@ -33,6 +37,8 @@ public class ExcelToExcelController {
         if (file != null) {
             labelPath.setWrapText(true);
             labelPath.setText(file.toString());
+
+            readConfigureFile(file);
         }
     }
 
@@ -42,6 +48,12 @@ public class ExcelToExcelController {
                 new FileChooser.ExtensionFilter("XLSX", "*.xlsx"),
                 new FileChooser.ExtensionFilter("XLS", "*.xls")
         );
+    }
+
+    private void readConfigureFile(File file) throws IOException {
+        FileInputStream fis = new FileInputStream(file);
+        XSSFWorkbook xssfWorkbook = new XSSFWorkbook(fis);
+
     }
 }
 
