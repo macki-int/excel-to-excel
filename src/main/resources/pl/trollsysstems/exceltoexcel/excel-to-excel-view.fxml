@@ -15,17 +15,17 @@
      <tabs>
        <Tab text="Import">
          <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="1000.0">
+           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="409.0" prefWidth="365.0">
                   <children>
                      <TableView fx:id="tableViewConfig" layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0">
                        <columns>
-                         <TableColumn fx:id="columnNameConfig" editable="false" prefWidth="68.0" sortable="false" style="-fx-alignment: CENTER;" text="Name" />
-                         <TableColumn fx:id="columnQuantityConfig" editable="false" prefWidth="85.0" sortable="false" style="-fx-alignment: CENTER-RIGHT;" text="Ilość inklinometrów" />
-                           <TableColumn fx:id="columnStartDateConfig" editable="false" minWidth="2.0" prefWidth="117.0" sortable="false" style="-fx-alignment: CENTER_RIGHT;" text="Data start" />
-                           <TableColumn fx:id="columnStopDateConfig" editable="false" prefWidth="103.0" sortable="false" style="-fx-alignment: CENTER_RIGHT;" text="Data stop" />
+                         <TableColumn fx:id="columnNameConfig" editable="false" prefWidth="56.0" sortable="false" style="-fx-alignment: CENTER;" text="Name" />
+                         <TableColumn fx:id="columnQuantityConfig" editable="false" prefWidth="70.0" sortable="false" style="-fx-alignment: CENTER-RIGHT;" text="Ilość inklinometrów" />
+                           <TableColumn fx:id="columnStartDateConfig" editable="false" minWidth="2.0" prefWidth="128.0" sortable="false" style="-fx-alignment: CENTER_RIGHT;" text="Data start" />
+                           <TableColumn fx:id="columnStopDateConfig" editable="false" prefWidth="119.0" sortable="false" style="-fx-alignment: CENTER_RIGHT;" text="Data stop" />
                        </columns>
                      </TableView>
-                     <Button layoutX="424.0" layoutY="44.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Generowanie danych" AnchorPane.rightAnchor="20.0" />
+                     <Button fx:id="buttonGenerate" disable="true" layoutX="424.0" layoutY="44.0" mnemonicParsing="false" onAction="#onButtonGenerateClick" prefHeight="25.0" prefWidth="150.0" text="Generowanie danych" AnchorPane.rightAnchor="20.0" />
                      <Button fx:id="buttonOpenConfigDialog" layoutX="424.0" layoutY="9.0" mnemonicParsing="false" onAction="#onButtonOpenConfigDialogClick" prefHeight="25.0" prefWidth="150.0" text="Plik konfiguracyjny" AnchorPane.rightAnchor="20.0" />
                      <Label fx:id="labelPath" layoutX="390.0" layoutY="312.0" prefHeight="89.0" prefWidth="179.0" AnchorPane.rightAnchor="6.0" />
                   </children>
