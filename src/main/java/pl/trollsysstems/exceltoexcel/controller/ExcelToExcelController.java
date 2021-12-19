@@ -7,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,10 +27,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class ExcelToExcelController {
-    //    @FXML
-//    private Button buttonExit;
-//    @FXML
-//    private Button buttonOpenConfigDialog;
+    @FXML
+    private Button buttonExit;
+    @FXML
+    private Button buttonGenerate;
     @FXML
     private Label labelPath;
     @FXML
@@ -47,6 +48,11 @@ public class ExcelToExcelController {
     private void onButtonExitClick() {
         Platform.exit();
         System.exit(0);
+    }
+
+    @FXML
+    private void onButtonGenerateClick() {
+        System.out.println("Generate");
     }
 
     @FXML
@@ -71,6 +77,8 @@ public class ExcelToExcelController {
             columnQuantityConfig.setCellValueFactory(new PropertyValueFactory<>("quantityInclinometerInChain"));
             columnStartDateConfig.setCellValueFactory(new PropertyValueFactory<>("startDate"));
             columnStopDateConfig.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
+
+            buttonGenerate.setDisable(false);
         }
     }
 
