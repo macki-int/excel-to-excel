@@ -69,17 +69,20 @@ public class ExcelToExcelController {
             labelPath.setText(file.toString());
 
             List<InclinometerImportParam> inclinometerImportParamList = readConfigureFile(file);
-
-            observableArrayList = FXCollections.observableArrayList(inclinometerImportParamList);
-
-            tableViewConfig.setItems(observableArrayList);
-            columnNameConfig.setCellValueFactory(new PropertyValueFactory<>("inclinometerName"));
-            columnQuantityConfig.setCellValueFactory(new PropertyValueFactory<>("quantityInclinometerInChain"));
-            columnStartDateConfig.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-            columnStopDateConfig.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
+            fileTableView(inclinometerImportParamList);
 
             buttonGenerate.setDisable(false);
         }
+    }
+
+    private void fileTableView(List<InclinometerImportParam> inclinometerImportParamList){
+        observableArrayList = FXCollections.observableArrayList(inclinometerImportParamList);
+
+        tableViewConfig.setItems(observableArrayList);
+        columnNameConfig.setCellValueFactory(new PropertyValueFactory<>("inclinometerName"));
+        columnQuantityConfig.setCellValueFactory(new PropertyValueFactory<>("quantityInclinometerInChain"));
+        columnStartDateConfig.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        columnStopDateConfig.setCellValueFactory(new PropertyValueFactory<>("stopDate"));
     }
 
     private void configureFileChooser(FileChooser fileChooser) {
