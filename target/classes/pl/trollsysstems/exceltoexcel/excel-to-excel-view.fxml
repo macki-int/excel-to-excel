@@ -17,17 +17,17 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="441.0" prefWidth="1000.0">
                   <children>
-                     <TableView fx:id="TableViewConfig" layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0">
+                     <TableView fx:id="tableViewConfig" layoutX="8.0" layoutY="9.0" prefHeight="403.0" prefWidth="375.0" AnchorPane.bottomAnchor="0.0">
                        <columns>
-                         <TableColumn prefWidth="89.0" text="Name" />
-                         <TableColumn prefWidth="124.0" text="Ilość inklinometrów" />
-                           <TableColumn minWidth="2.0" text="Data start" />
-                           <TableColumn text="Data stop" />
+                         <TableColumn fx:id="columnNameConfig" editable="false" prefWidth="68.0" sortable="false" text="Name" />
+                         <TableColumn fx:id="columnQuantityConfig" editable="false" prefWidth="85.0" sortable="false" style="-fx-alignment: CENTER-RIGHT;" text="Ilość inklinometrów" />
+                           <TableColumn fx:id="columnStartDateConfig" editable="false" minWidth="2.0" prefWidth="117.0" sortable="false" style="-fx-alignment: CENTER_RIGHT;" text="Data start" />
+                           <TableColumn fx:id="columnStopDateConfig" editable="false" prefWidth="103.0" sortable="false" style="-fx-alignment: CENTER_RIGHT;" text="Data stop" />
                        </columns>
                      </TableView>
                      <Button layoutX="424.0" layoutY="44.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="150.0" text="Import" AnchorPane.rightAnchor="20.0" />
                      <Button fx:id="buttonOpenConfigDialog" layoutX="424.0" layoutY="9.0" mnemonicParsing="false" onAction="#onButtonOpenConfigDialogClick" prefHeight="25.0" prefWidth="150.0" text="Plik konfiguracyjny" AnchorPane.rightAnchor="20.0" />
-                     <Label fx:id="labelPath" layoutX="405.0" layoutY="88.0" prefHeight="89.0" prefWidth="150.0" AnchorPane.rightAnchor="20.0" />
+                     <Label fx:id="labelPath" layoutX="390.0" layoutY="312.0" prefHeight="89.0" prefWidth="179.0" AnchorPane.rightAnchor="6.0" />
                   </children>
                </AnchorPane>
          </content>
