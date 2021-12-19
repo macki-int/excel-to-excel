@@ -1,9 +1,6 @@
 package pl.trollsysstems.exceltoexcel.controller;
 
 import javafx.application.Platform;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -117,6 +114,7 @@ public class ExcelToExcelController {
 
         return inclinometerImportParam;
     }
+
 
 }
 
