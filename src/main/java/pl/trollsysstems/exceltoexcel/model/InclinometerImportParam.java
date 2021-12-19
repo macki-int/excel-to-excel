@@ -1,42 +1,55 @@
 package pl.trollsysstems.exceltoexcel.model;
 
+import javafx.beans.property.*;
+
 import java.time.LocalDate;
 
 public class InclinometerImportParam {
-    private String inclinometerName;
-    private int quantityInclinometerInChain;
-    private LocalDate startDate;
-    private LocalDate stopDate;
+    private StringProperty inclinometerName;
+    private IntegerProperty quantityInclinometerInChain;
+    private ObjectProperty<LocalDate> startDate;
+    private ObjectProperty<LocalDate> stopDate;
 
     public String getInclinometerName() {
-        return inclinometerName;
+        return inclinometerNameProperty().get();
     }
 
     public void setInclinometerName(String inclinometerName) {
-        this.inclinometerName = inclinometerName;
+        inclinometerNameProperty().set(inclinometerName);
     }
 
-    public int getQuantityInclinometerInChain() {
+    public StringProperty inclinometerNameProperty() {
+        if (inclinometerName == null) inclinometerName = new SimpleStringProperty(this, "inclinometerName");
+        return inclinometerName;
+    }
+
+    public Integer getQuantityInclinometerInChain() {
+        return quantityInclinometerInChainProperty().get();
+    }
+
+    public void setQuantityInclinometerInChain(Integer quantityInclinometerInChain) {
+        quantityInclinometerInChainProperty().set(quantityInclinometerInChain);
+    }
+
+    public IntegerProperty quantityInclinometerInChainProperty() {
+        if (quantityInclinometerInChain == null) quantityInclinometerInChain = new SimpleIntegerProperty(this, "quantityInclinometerInChain");
         return quantityInclinometerInChain;
     }
 
-    public void setQuantityInclinometerInChain(int quantityInclinometerInChain) {
-        this.quantityInclinometerInChain = quantityInclinometerInChain;
-    }
 
     public LocalDate getStartDate() {
-        return startDate;
+        return startDate.get();
     }
 
     public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+        this.startDate = new SimpleObjectProperty<>(startDate);
     }
 
     public LocalDate getStopDate() {
-        return stopDate;
+        return stopDate.get();
     }
 
     public void setStopDate(LocalDate stopDate) {
-        this.stopDate = stopDate;
+        this.stopDate = new SimpleObjectProperty<>(stopDate);
     }
 }
