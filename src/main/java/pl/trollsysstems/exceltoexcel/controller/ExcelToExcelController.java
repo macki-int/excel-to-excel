@@ -40,7 +40,6 @@ public class ExcelToExcelController {
     private TableColumn<InclinometerImportParam, LocalDate> columnStartDateConfig;
     @FXML
     private TableColumn<InclinometerImportParam, LocalDate> columnStopDateConfig;
-    private ObservableList<InclinometerImportParam> observableArrayList;
 
     @FXML
     private void onButtonExitClick() {
@@ -72,8 +71,9 @@ public class ExcelToExcelController {
         }
     }
 
-    private void fileTableView(List<InclinometerImportParam> inclinometerImportParamList){
-        observableArrayList = FXCollections.observableArrayList(inclinometerImportParamList);
+    private void fileTableView(List<InclinometerImportParam> inclinometerImportParamList) {
+        ObservableList<InclinometerImportParam> observableArrayList = FXCollections
+                .observableArrayList(inclinometerImportParamList);
 
         tableViewConfig.setItems(observableArrayList);
         columnNameConfig.setCellValueFactory(new PropertyValueFactory<>("inclinometerName"));
