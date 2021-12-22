@@ -12,6 +12,11 @@ public class RandomMeasurementGeneratorImpl implements RandomMeasurementGenerato
                 .findFirst()
                 .getAsDouble();
 
+        Boolean randomBoolenn = random.nextBoolean();
+        if (randomBoolenn){
+            randomValue *= -1;
+        }
+
         return randomValue;
     }
 }
