@@ -7,7 +7,7 @@ public class Measure {
     private LocalDate measureDate;
     private int numberOfMeasure;
     private Double angelX;
-    private Double angleY;
+    private Double angelY;
     private Double temperature;
 
     public int getId() {
@@ -42,12 +42,12 @@ public class Measure {
         this.angelX = angelX;
     }
 
-    public Double getAngleY() {
-        return angleY;
+    public Double getAngelY() {
+        return angelY;
     }
 
-    public void setAngleY(Double angleY) {
-        this.angleY = angleY;
+    public void setAngelY(Double angelY) {
+        this.angelY = angelY;
     }
 
     public Double getTemperature() {
@@ -65,7 +65,7 @@ public class Measure {
                 ", measureDate=" + measureDate +
                 ", numberOfMeasure=" + numberOfMeasure +
                 ", angelX=" + angelX +
-                ", angleY=" + angleY +
+                ", angleY=" + angelY +
                 ", temperature=" + temperature +
                 '}';
     }
