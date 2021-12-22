@@ -5,11 +5,13 @@ import java.util.Random;
 public class RandomMeasurementGeneratorImpl implements RandomMeasurementGenerator {
 
     @Override
-    public Double generateMeasurement(Double baseMeasurementValue) {
+    public Double generateMeasurement(Double baseMeasurementValue, Double deviation) {
         Random random = new Random();
+        Double randomValue = random.doubles(baseMeasurementValue, baseMeasurementValue * deviation)
+                .limit(1)
+                .findFirst()
+                .getAsDouble();
 
-        Double randomValue = random.nextDouble();
-        System.out.println(randomValue);
         return randomValue;
     }
 }
