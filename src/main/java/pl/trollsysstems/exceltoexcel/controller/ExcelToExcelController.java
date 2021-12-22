@@ -33,7 +33,11 @@ public class ExcelToExcelController {
     @FXML
     private TextField textFieldMeasurementPerDay;
     @FXML
+    private TextField textFieldMaxAdd;
+    @FXML
     private TextField textFieldStartValue;
+    @FXML
+    private TextArea textResult;
     @FXML
     private TableView<InclinometerImportParam> tableViewConfig;
     @FXML
@@ -53,7 +57,7 @@ public class ExcelToExcelController {
     }
 
     @FXML
-    private void onButtonGenerateClick() {
+    private void onButtonGenerateClick() throws IOException {
         List<InclinometerChain> inclinometerChainList = new ArrayList<>();
 
         for (InclinometerImportParam inclinometerImportParam : observableArrayList) {
@@ -65,17 +69,21 @@ public class ExcelToExcelController {
             inclinometerChainList.add(inclinometerChain);
         }
 
-
+        saveInclinometerMeasurementToExcel(inclinometerChainList);
+//        for (InclinometerChain inclinometerChain : inclinometerChainList) {
+//            inclinometerChain.getMeasureList().forEach(s -> System.out.println(s.toString()));
+//        }
         System.out.println("FINISH!");
+
         showInfoAboutFinishCreatMeasuremant();
 //        observableArrayList.forEach(s -> System.out.println(s.getInclinometerName()));
     }
 
     private List<Measure> createMeasurementsForOneInclinometerChain(InclinometerImportParam inclinometerImportParam) {
         List<Measure> measureList = new ArrayList<>();
-        RandomMeasurementGeneratorImpl randomMeasurementGenerator = new RandomMeasurementGeneratorImpl();
 
-        inclinometerImportParam.getQuantityInclinometerInChain();
+        Double angelX = getRandomMeasurment(Double.parseDouble(textFieldStartValue.getText()));
+        Double angelY = getRandomMeasurment(Double.parseDouble(textFieldStartValue.getText()));
 
         Long i = 0L;
         while (inclinometerImportParam.getStartDate()
@@ -90,20 +98,36 @@ public class ExcelToExcelController {
                     measure.setMeasureDate(inclinometerImportParam.getStartDate().plusDays(i));
                     measure.setNumberOfMeasure(k);
                     measure.setId(j);
-                    measure.setAngelX(randomMeasurementGenerator
-                            .generateMeasurement(1.0,
-                                    Double.parseDouble(textFieldDeviation.getText())));
-                    measure.setAngleY(randomMeasurementGenerator
-                            .generateMeasurement(1.0,
-                                    Double.parseDouble(textFieldDeviation.getText())));
+
+                    Double tempAngelX = getRandomMeasurment(Double.parseDouble(textFieldStartValue.getText()));
+                    if (angelX < tempAngelX + Double.parseDouble(textFieldMaxAdd.getText()) || angelX != 0.0) {
+                        angelX = tempAngelX;
+                    } else {
+                        angelX = 0.0;
+                    }
+                    measure.setAngelX(angelX);
+
+                    Double tempAngelY = getRandomMeasurment(Double.parseDouble(textFieldStartValue.getText()));
+                    if (angelY < tempAngelY + Double.parseDouble(textFieldMaxAdd.getText()) || angelY != 0.0) {
+                        angelY = tempAngelY;
+                    } else {
+                        angelY = 0.0;
+                    }
+                    measure.setAngelY(angelY);
                     measure.setTemperature(1.0);
-                    System.out.println(measure.toString());
+
                     measureList.add(measure);
                 }
             }
             i++;
         }
         return measureList;
+    }
+
+    private Double getRandomMeasurment(Double baseValue) {
+        RandomMeasurementGeneratorImpl randomMeasurementGenerator = new RandomMeasurementGeneratorImpl();
+
+        return randomMeasurementGenerator.generateMeasurement(baseValue, Double.parseDouble(textFieldDeviation.getText()));
     }
 
     @FXML
@@ -122,6 +146,7 @@ public class ExcelToExcelController {
             fileTableView(inclinometerImportParamList);
 
             buttonGenerate.setDisable(false);
+            textFieldMaxAdd.setDisable(false);
             textFieldDeviation.setDisable(false);
             textFieldStartValue.setDisable(false);
             textFieldMeasurementPerDay.setDisable(false);
@@ -172,33 +197,60 @@ public class ExcelToExcelController {
         return inclinometerImportParam;
     }
 
-    private void saveInclinometerMeasurementToExcel() throws IOException {
-        Workbook workbook = new XSSFWorkbook();
+    private void saveInclinometerMeasurementToExcel(List<InclinometerChain> inclinometerChainList) throws IOException {
+        List<String> fileList = new ArrayList<>();
 
-        Sheet sheet = workbook.createSheet("IG");
+        for (int i = 0; i < inclinometerChainList.size(); i++) {
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("IG");
 
-        Row row = sheet.createRow(2);
-        org.apache.poi.ss.usermodel.Cell cell = row.createCell(0);
-        cell.setCellValue("John Smith");
+            String inclinometerName = inclinometerChainList.get(i).getInclinometerName();
+            List<Measure> measureList = inclinometerChainList.get(i).getMeasureList();
+            org.apache.poi.ss.usermodel.CellStyle cellStyle = workbook.createCellStyle();
+            org.apache.poi.ss.usermodel.CreationHelper createHelper = workbook.getCreationHelper();
+            cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mm-yyyy"));
 
+            for (int j = 0; j < measureList.size(); j++) {
+                Row row = sheet.createRow(j);
+                org.apache.poi.ss.usermodel.Cell cell0 = row.createCell(0);
+                cell0.setCellStyle(cellStyle);
+                cell0.setCellValue(measureList.get(j).getMeasureDate());
+                org.apache.poi.ss.usermodel.Cell cell1 = row.createCell(1);
+                cell1.setCellValue(measureList.get(j).getId() + 1);
+                org.apache.poi.ss.usermodel.Cell cell2 = row.createCell(2);
+                cell2.setCellValue(inclinometerName);
+                org.apache.poi.ss.usermodel.Cell cell3 = row.createCell(3);
+                cell3.setCellValue(measureList.get(j).getNumberOfMeasure() + 1);
+                org.apache.poi.ss.usermodel.Cell cell4 = row.createCell(4);
+                cell4.setCellValue(measureList.get(j).getAngelX());
+                org.apache.poi.ss.usermodel.Cell cell5 = row.createCell(5);
+                cell5.setCellValue(measureList.get(j).getAngelY());
+                org.apache.poi.ss.usermodel.Cell cell6 = row.createCell(6);
+                cell6.setCellValue(measureList.get(j).getTemperature());
+            }
 
-        File currDir = new File(".");
-        String path = currDir.getAbsolutePath();
-        String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
+            File currDir = new File(".");
+            String path = currDir.getAbsolutePath();
+            String fileLocation = path.substring(0, path.length() - 1) + inclinometerName + ".xlsx";
 
-
-
-        FileOutputStream outputStream = new FileOutputStream(fileLocation);
-        workbook.write(outputStream);
-        workbook.close();
+            FileOutputStream outputStream = new FileOutputStream(fileLocation);
+            workbook.write(outputStream);
+            workbook.close();
+            fileList.add(fileLocation);
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : fileList) {
+            stringBuilder.append(s + "\n");
+        }
+        textResult.setText(stringBuilder.toString());
     }
 
 
-    private void showInfoAboutFinishCreatMeasuremant(){
+    private void showInfoAboutFinishCreatMeasuremant() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
-        alert.setHeaderText("Generowanie obliczeń");
-        alert.setContentText("Chyba przebiegło prawidłowo...");
+        alert.setHeaderText("Generowanie obliczeń...");
+        alert.setContentText("Chyba przebiegło prawidłowo.");
 
         alert.showAndWait();
     }
