@@ -1,13 +1,12 @@
 package pl.trollsysstems.exceltoexcel.controller;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -16,6 +15,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import pl.trollsysstems.exceltoexcel.model.InclinometerImportParam;
+import pl.trollsysstems.exceltoexcel.service.NumericTextField;
+import pl.trollsysstems.exceltoexcel.service.RandomMeasurementGeneratorImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +32,8 @@ public class ExcelToExcelController {
     @FXML
     private Label labelPath;
     @FXML
+    private TextField textFieldDeviation;
+    @FXML
     private TableView<InclinometerImportParam> tableViewConfig;
     @FXML
     private TableColumn<InclinometerImportParam, String> columnNameConfig;
@@ -40,6 +43,7 @@ public class ExcelToExcelController {
     private TableColumn<InclinometerImportParam, LocalDate> columnStartDateConfig;
     @FXML
     private TableColumn<InclinometerImportParam, LocalDate> columnStopDateConfig;
+    private ObservableList<InclinometerImportParam> observableArrayList;
 
     @FXML
     private void onButtonExitClick() {
@@ -49,7 +53,12 @@ public class ExcelToExcelController {
 
     @FXML
     private void onButtonGenerateClick() {
-        System.out.println("Generate");
+        RandomMeasurementGeneratorImpl randomMeasurementGenerator = new RandomMeasurementGeneratorImpl();
+        randomMeasurementGenerator.generateMeasurement(1.0,
+                Double.parseDouble(textFieldDeviation.getText()));
+
+        observableArrayList.forEach(s-> System.out.println(s.getInclinometerName()));
+
     }
 
     @FXML
@@ -68,12 +77,12 @@ public class ExcelToExcelController {
             fileTableView(inclinometerImportParamList);
 
             buttonGenerate.setDisable(false);
+            textFieldDeviation.setDisable(false);
         }
     }
 
     private void fileTableView(List<InclinometerImportParam> inclinometerImportParamList) {
-        ObservableList<InclinometerImportParam> observableArrayList = FXCollections
-                .observableArrayList(inclinometerImportParamList);
+        observableArrayList = FXCollections.observableArrayList(inclinometerImportParamList);
 
         tableViewConfig.setItems(observableArrayList);
         columnNameConfig.setCellValueFactory(new PropertyValueFactory<>("inclinometerName"));
@@ -114,7 +123,5 @@ public class ExcelToExcelController {
 
         return inclinometerImportParam;
     }
-
-
 }
 
