@@ -1,8 +1,6 @@
 package pl.trollsysstems.exceltoexcel.controller;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,13 +12,12 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import pl.trollsysstems.exceltoexcel.model.InclinometerChain;
 import pl.trollsysstems.exceltoexcel.model.InclinometerImportParam;
-import pl.trollsysstems.exceltoexcel.service.NumericTextField;
+import pl.trollsysstems.exceltoexcel.model.Measure;
 import pl.trollsysstems.exceltoexcel.service.RandomMeasurementGeneratorImpl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -33,6 +30,10 @@ public class ExcelToExcelController {
     private Label labelPath;
     @FXML
     private TextField textFieldDeviation;
+    @FXML
+    private TextField textFieldMeasurementPerDay;
+    @FXML
+    private TextField textFieldStartValue;
     @FXML
     private TableView<InclinometerImportParam> tableViewConfig;
     @FXML
@@ -53,12 +54,56 @@ public class ExcelToExcelController {
 
     @FXML
     private void onButtonGenerateClick() {
+        List<InclinometerChain> inclinometerChainList = new ArrayList<>();
+
+        for (InclinometerImportParam inclinometerImportParam : observableArrayList) {
+            InclinometerChain inclinometerChain = new InclinometerChain();
+
+            inclinometerChain.setInclinometerName(inclinometerImportParam.getInclinometerName());
+            inclinometerChain.setMeasureList(createMeasurementsForOneInclinometerChain(inclinometerImportParam));
+
+            inclinometerChainList.add(inclinometerChain);
+        }
+
+
+        System.out.println("FINISH!");
+        showInfoAboutFinishCreatMeasuremant();
+//        observableArrayList.forEach(s -> System.out.println(s.getInclinometerName()));
+    }
+
+    private List<Measure> createMeasurementsForOneInclinometerChain(InclinometerImportParam inclinometerImportParam) {
+        List<Measure> measureList = new ArrayList<>();
         RandomMeasurementGeneratorImpl randomMeasurementGenerator = new RandomMeasurementGeneratorImpl();
-        randomMeasurementGenerator.generateMeasurement(1.0,
-                Double.parseDouble(textFieldDeviation.getText()));
 
-        observableArrayList.forEach(s-> System.out.println(s.getInclinometerName()));
+        inclinometerImportParam.getQuantityInclinometerInChain();
 
+        Long i = 0L;
+        while (inclinometerImportParam.getStartDate()
+                .plusDays(i)
+                .isBefore(inclinometerImportParam.getStopDate().plusDays(1))) {
+
+            for (int j = 0; j < Integer.parseInt(textFieldMeasurementPerDay.getText()); j++) {
+
+                for (int k = 0; k < inclinometerImportParam.getQuantityInclinometerInChain(); k++) {
+                    Measure measure = new Measure();
+
+                    measure.setMeasureDate(inclinometerImportParam.getStartDate().plusDays(i));
+                    measure.setNumberOfMeasure(k);
+                    measure.setId(j);
+                    measure.setAngelX(randomMeasurementGenerator
+                            .generateMeasurement(1.0,
+                                    Double.parseDouble(textFieldDeviation.getText())));
+                    measure.setAngleY(randomMeasurementGenerator
+                            .generateMeasurement(1.0,
+                                    Double.parseDouble(textFieldDeviation.getText())));
+                    measure.setTemperature(1.0);
+                    System.out.println(measure.toString());
+                    measureList.add(measure);
+                }
+            }
+            i++;
+        }
+        return measureList;
     }
 
     @FXML
@@ -78,8 +123,11 @@ public class ExcelToExcelController {
 
             buttonGenerate.setDisable(false);
             textFieldDeviation.setDisable(false);
+            textFieldStartValue.setDisable(false);
+            textFieldMeasurementPerDay.setDisable(false);
         }
     }
+
 
     private void fileTableView(List<InclinometerImportParam> inclinometerImportParamList) {
         observableArrayList = FXCollections.observableArrayList(inclinometerImportParamList);
@@ -122,6 +170,37 @@ public class ExcelToExcelController {
         inclinometerImportParam.setStopDate(row.getCell(4).getLocalDateTimeCellValue().toLocalDate());
 
         return inclinometerImportParam;
+    }
+
+    private void saveInclinometerMeasurementToExcel() throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+
+        Sheet sheet = workbook.createSheet("IG");
+
+        Row row = sheet.createRow(2);
+        org.apache.poi.ss.usermodel.Cell cell = row.createCell(0);
+        cell.setCellValue("John Smith");
+
+
+        File currDir = new File(".");
+        String path = currDir.getAbsolutePath();
+        String fileLocation = path.substring(0, path.length() - 1) + "temp.xlsx";
+
+
+
+        FileOutputStream outputStream = new FileOutputStream(fileLocation);
+        workbook.write(outputStream);
+        workbook.close();
+    }
+
+
+    private void showInfoAboutFinishCreatMeasuremant(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Generowanie obliczeń");
+        alert.setContentText("Chyba przebiegło prawidłowo...");
+
+        alert.showAndWait();
     }
 }
 
