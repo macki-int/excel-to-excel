@@ -100,7 +100,7 @@ public class ExcelToExcelController {
                     measure.setId(j);
 
                     Double tempAngelX = getRandomMeasurment(Double.parseDouble(textFieldStartValue.getText()));
-                    if (angelX < tempAngelX + Double.parseDouble(textFieldMaxAdd.getText()) || angelX != 0.0) {
+                    if (isAngelLowerThanAngelTempOrAngelUnequalZero(angelX, tempAngelX)) {
                         angelX = tempAngelX;
                     } else {
                         angelX = 0.0;
@@ -108,7 +108,7 @@ public class ExcelToExcelController {
                     measure.setAngelX(angelX);
 
                     Double tempAngelY = getRandomMeasurment(Double.parseDouble(textFieldStartValue.getText()));
-                    if (angelY < tempAngelY + Double.parseDouble(textFieldMaxAdd.getText()) || angelY != 0.0) {
+                    if (isAngelLowerThanAngelTempOrAngelUnequalZero(angelY, tempAngelY)) {
                         angelY = tempAngelY;
                     } else {
                         angelY = 0.0;
@@ -122,6 +122,10 @@ public class ExcelToExcelController {
             i++;
         }
         return measureList;
+    }
+
+    private boolean isAngelLowerThanAngelTempOrAngelUnequalZero(Double angel, Double tempAngel) {
+        return angel < tempAngel + Double.parseDouble(textFieldMaxAdd.getText()) || angel != 0.0;
     }
 
     private Double getRandomMeasurment(Double baseValue) {
@@ -208,6 +212,7 @@ public class ExcelToExcelController {
             List<Measure> measureList = inclinometerChainList.get(i).getMeasureList();
             org.apache.poi.ss.usermodel.CellStyle cellStyle = workbook.createCellStyle();
             org.apache.poi.ss.usermodel.CreationHelper createHelper = workbook.getCreationHelper();
+
             cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-mm-yyyy"));
 
             for (int j = 0; j < measureList.size(); j++) {
